@@ -13,13 +13,21 @@ async function main() {
   // manually to make sure everything is compiled
   // await hre.run('compile');
 
-  // We get the contract to deploy
-  const Greeter = await hre.ethers.getContractFactory("Greeter");
-  const greeter = await Greeter.deploy("Hello, Hardhat!");
+  // We get the contract to deploy   
+  // const Greeter = await hre.ethers.getContractFactory("Greeter");
+  // const greeter = await Greeter.deploy("Hello, Hardhat!");
+  // await greeter.deployed();
+  // console.log("Greeter deployed to:", greeter.address);
 
-  await greeter.deployed();
+  const nft_json_uri = "https://ipfs.io/ipfs/QmPGCr2qNKas123rqEvvCwCiXxhm7BAAyHVpNrXKWdEws4";
+  const NFTToken = await hre.ethers.getContractFactory("newNFT");
+  // const _NFTToken = await NFTToken.deploy();
+  // console.log("NFTToken deployed to:", _NFTToken.address);
 
-  console.log("Greeter deployed to:", greeter.address);
+  // const nftTokenContractAddress = "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512";
+  // const walletAddress_local = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
+  // const nft = await NFTToken.mint(walletAddress_local, 1, nft_json_uri)
+  // console.log('got nft:', nft)
 }
 
 // We recommend this pattern to be able to use async/await everywhere

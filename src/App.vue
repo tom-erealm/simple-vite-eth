@@ -38,6 +38,8 @@
     
     <br>
     <BaseButton>proceed</BaseButton>
+
+    <button @click="mintNFT">mint nft</button>
   </div>
 </div>
 </template>
@@ -46,11 +48,16 @@
 import { ref, onMounted } from 'vue'
 import { ethers } from 'ethers'
 import Greeter from './artifacts/contracts/Greeter.sol/Greeter.json'
+import NFTABI from './artifacts/contracts/StarToken.sol/newNFT.json'
 import HelloWorld from './components/HelloWorld.vue'
 import BaseButton from './components/BaseButton.vue'
 import BaseInput from './components/BaseInput.vue'
 
 const greeterAddress = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"
+const nftTokenContractAddress = "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512";
+const walletAddress_local = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
+const nft_json_uri = "https://ipfs.io/ipfs/QmPGCr2qNKas123rqEvvCwCiXxhm7BAAyHVpNrXKWdEws4";
+
 
 const greeting = ref('');
 const token_address = ref('')
@@ -92,6 +99,17 @@ const setGreeting = async () => {
       const transaction = await contract.setGreeting(greeting.value)
       await transaction.wait()
       fetchGreeting()
+    }
+  }
+
+  const mintNFT = async () => {
+    if (typeof window.ethereum !== 'undefined') {
+      await requestAccount()
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner()
+      const contract = new ethers.Contract(nftTokenContractAddress, NFTABI.abi, signer)
+      const transaction = await contract.mint(walletAddress_local, 1, nft_json_uri)
+      await transaction.wait()
     }
   }
 
